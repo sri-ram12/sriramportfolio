@@ -120,6 +120,19 @@ export function setCharTimeline(
     }
   } else {
     if (character) {
+        const tlM1 = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".landing-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+        
+        tlM1.to(character.rotation, { y: 0.4, duration: 1 }, 0)
+            .to(camera.position, { z: 30, duration: 1 }, 0)
+            .to(".landing-container", { opacity: 0, duration: 0.5 }, 0);
+
       const tM2 = gsap.timeline({
         scrollTrigger: {
           trigger: ".what-box-in",

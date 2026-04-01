@@ -78,7 +78,7 @@ function SkillBall({ skill, r, normalMap }: { skill: any; r: any; normalMap: THR
           onPointerOver={() => setHovered(true)}
           onPointerOut={() => setHovered(false)}
         >
-          <sphereGeometry args={[3.2, 128, 128]} />
+          <sphereGeometry args={[3.2, 64, 48]} />
           <meshPhysicalMaterial 
             color="#ffffff"
             roughness={0.7} 
@@ -204,11 +204,21 @@ const TechStack = () => {
 
       <Canvas
         shadows
-        gl={{ antialias: true, powerPreference: "high-performance", alpha: true }}
-        camera={{ position: [0, 0, 55], fov: 40, near: 1, far: 300 }} // Wider camera for mobile
+        gl={{ 
+          antialias: true, 
+          powerPreference: "high-performance", 
+          alpha: true,
+          stencil: false,
+          depth: true
+        }}
+        dpr={[1, 2]} // Performance optimization: cap at 2x
+        camera={{ position: [0, 0, 55], fov: 40, near: 1, far: 300 }}
         onCreated={({ camera, viewport }) => {
-            // Adjust camera Z based on screen aspect ratio
-            if (viewport.width < 15) camera.position.z = 70; 
+            if (viewport.width < 15) {
+                camera.position.z = 70;
+            } else if (viewport.width < 25) {
+                camera.position.z = 60;
+            }
             camera.updateProjectionMatrix();
         }}
         className="tech-canvas"
