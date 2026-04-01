@@ -1,0 +1,10 @@
+﻿
+> sriram-portfolio@0.0.0 build
+> tsc -b && vite build
+
+src/components/TechStack.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/TechStack.tsx(52,13): error TS6133: 'state' is declared but its value is never read.
+src/components/TechStack.tsx(73,7): error TS2322: Type '{ children: Element; ref: RefObject<RigidBody>; colliders: "ball"; linearDamping: number; angularDamping: number; friction: number; restitution: number; position: [...]; onPointerOver: () => void; onPointerOut: () => void; }' is not assignable to type 'IntrinsicAttributes & Omit<RigidBodyProps & RefAttributes<RigidBody>, "ref"> & { ref?: RefObject<RigidBody> | ((instance: RigidBody | null) => void) | null | undefined; }'.
+  Property 'onPointerOver' does not exist on type 'IntrinsicAttributes & Omit<RigidBodyProps & RefAttributes<RigidBody>, "ref"> & { ref?: RefObject<RigidBody> | ((instance: RigidBody | null) => void) | null | undefined; }'.
+src/components/TechStack.tsx(218,40): error TS2322: Type '{ children: (Element | Element[])[]; gravity: [number, number, number]; iterations: number; }' is not assignable to type 'IntrinsicAttributes & PhysicsProps'.
+  Property 'iterations' does not exist on type 'IntrinsicAttributes & PhysicsProps'.

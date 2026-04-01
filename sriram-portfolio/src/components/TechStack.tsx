@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo, Suspense } from "react";
+import { useRef, useState, useMemo, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Html } from "@react-three/drei";
@@ -49,7 +49,7 @@ function SkillBall({ skill, r, normalMap }: { skill: any; r: any; normalMap: THR
   const api = useRef<RapierRigidBody>(null);
   const [hovered, setHovered] = useState(false);
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (!api.current) return;
     
     // Attract towards center gently
@@ -70,11 +70,14 @@ function SkillBall({ skill, r, normalMap }: { skill: any; r: any; normalMap: THR
       friction={0.2}
       restitution={1.1}
       position={[r(30), r(20), r(10)]}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
     >
       <group>
-        <mesh castShadow receiveShadow>
+        <mesh 
+          castShadow 
+          receiveShadow
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+        >
           <sphereGeometry args={[3.2, 128, 128]} />
           <meshPhysicalMaterial 
             color="#ffffff"
@@ -215,7 +218,7 @@ const TechStack = () => {
           <pointLight position={[20, 20, 25]} intensity={3} color="white" castShadow />
           <directionalLight position={[-10, 20, 10]} intensity={1.5} />
           
-          <Physics gravity={[0, 0, 0]} iterations={10}>
+          <Physics gravity={[0, 0, 0]}>
             <MouseInterface />
             <PhysicsBounds />
             {skillsData.map((skill, i) => (
