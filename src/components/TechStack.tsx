@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, Suspense } from "react";
+import { useRef, useState, useMemo, Suspense, useEffect } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Html } from "@react-three/drei";
@@ -185,10 +185,22 @@ const TechStack = () => {
         return tex;
     }, []);
 
+  const [inView, setInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const isMobile = window.innerWidth <= 768;
 
   return (
-    <section className="techstack-section" id="techstack">
+    <section className="techstack-section" id="techstack" ref={sectionRef}>
       <div className="techstack-header" style={{ pointerEvents: 'none', position: 'absolute', top: '10%' }}>
         <h2 className="techstack-title">
           My <span className="text-gradient-neon">Tech</span> Ecosystem
@@ -205,6 +217,7 @@ const TechStack = () => {
       </div>
 
       <Canvas
+        frameloop={inView ? "always" : "never"}
         shadows={!isMobile}
         gl={{ 
           antialias: !isMobile, 
