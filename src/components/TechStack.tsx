@@ -186,16 +186,22 @@ const TechStack = () => {
     }, []);
 
   const [inView, setInView] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        if (entry.isIntersecting && !hasMounted) {
+          setHasMounted(true);
+        }
+      },
       { threshold: 0.05 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [hasMounted]);
 
   const isMobile = window.innerWidth <= 768;
 
@@ -216,9 +222,10 @@ const TechStack = () => {
         </div>
       </div>
 
-      <Canvas
-        frameloop={inView ? "always" : "never"}
-        shadows={!isMobile}
+      {hasMounted && (
+        <Canvas
+          frameloop={inView ? "always" : "never"}
+          shadows={!isMobile}
         gl={{ 
           antialias: !isMobile, 
           powerPreference: "high-performance", 
@@ -268,6 +275,7 @@ const TechStack = () => {
           </EffectComposer>
         </Suspense>
       </Canvas>
+      )}
     </section>
   );
 };
