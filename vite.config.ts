@@ -10,5 +10,5 @@ export default defineConfig({
       gsap: path.resolve(__dirname, "src/lib/gsap"),
     },
   },
-  base: "/",
+  base: "/MyPortfolio/",
 });
